@@ -17,24 +17,29 @@ function FilmDetails() {
   const { id } = useParams();
   const [filmDetails, setFilmDetails] = useState([]);
   const [recommendedFilms, setRecommendedFilms] = useState([]);
+  const [favoriteList, setFavoriteList] = useState(() => {
+    const faveList = window.localStorage.getItem("favoriteList");
+    if (faveList !== "undefined") {
+      return JSON.parse(faveList);
+    }
+    return [];
+  });
+  console.log(favoriteList);
   const [isLiked, setIsLiked] = useState(() => {
-    const faveList = JSON.parse(localStorage.getItem("favoriteList"));
-    if (faveList) {
-      const user = faveList.find((uList) => uList.user === username);
-      if (user) {
-        if (user.favorite.includes(parseInt(id))) {
-          return true;
-        } else {
-          return false;
+    if (localStorage.getItem("favoriteList") !== "undefined") {
+      const faveList = JSON.parse(localStorage.getItem("favoriteList"));
+      if (faveList) {
+        const user = faveList.find((uList) => uList.user === username);
+        if (user) {
+          if (user.favorite.includes(parseInt(id))) {
+            return true;
+          } else {
+            return false;
+          }
         }
       }
     }
     return false;
-  });
-  const [favoriteList, setFavoriteList] = useState(() => {
-    if (window.localStorage.getItem("favoriteList")) {
-      return JSON.parse(window.localStorage.getItem("favoriteList"));
-    } else return [];
   });
 
   useEffect(() => {
@@ -67,7 +72,8 @@ function FilmDetails() {
   useEffect(() => {
     if (isLiked) {
       setFavoriteList((prev) => {
-        const userFavorites = prev.find((user) => user.user === username);
+        console.log(prev);
+        const userFavorites = prev?.find((user) => user.user === username);
         if (!userFavorites) {
           prev.push({
             user: username,
@@ -86,20 +92,26 @@ function FilmDetails() {
         }
       });
     } else {
-      console.log("isliekd is false");
-      setFavoriteList((prev) => {
-        const userFavorites = prev.find((user) => user.user === username);
-        if (userFavorites) {
-          console.log("filter");
-          userFavorites.favorite = userFavorites.favorite.filter(
-            (filmId) => parseInt(filmId) !== parseInt(id)
-          );
-          userFavorites.details = userFavorites.details.filter(
-            (detail) => parseInt(detail.id) !== parseInt(id)
-          );
-          return [...prev];
-        }
-      });
+      if (!favoriteList) {
+        setFavoriteList([]);
+      }
+      if (favoriteList) {
+        setFavoriteList((prev) => {
+          if (prev) {
+            const userFavorites = prev.find((user) => user.user === username);
+            if (userFavorites) {
+              console.log("filter");
+              userFavorites.favorite = userFavorites.favorite.filter(
+                (filmId) => parseInt(filmId) !== parseInt(id)
+              );
+              userFavorites.details = userFavorites.details.filter(
+                (detail) => parseInt(detail.id) !== parseInt(id)
+              );
+              return [...prev];
+            }
+          }
+        });
+      }
     }
   }, [isLiked]);
 
