@@ -24,7 +24,7 @@ function FilmDetails() {
     }
     return [];
   });
-  console.log(favoriteList);
+
   const [isLiked, setIsLiked] = useState(() => {
     if (localStorage.getItem("favoriteList") !== "undefined") {
       const faveList = JSON.parse(localStorage.getItem("favoriteList"));
@@ -64,60 +64,58 @@ function FilmDetails() {
 
     getMovie();
   }, [id]);
-
-  const addToFavoriteHandler = () => {
-    setIsLiked((prev) => !prev);
-  };
-
   useEffect(() => {
     if (isLiked) {
-      setFavoriteList((prev) => {
-        console.log(prev);
-        const userFavorites = prev?.find((user) => user.user === username);
-        if (!userFavorites) {
-          prev.push({
-            user: username,
-            favorite: [parseInt(id)],
-            details: [filmDetails],
-          });
-          return [...prev];
-        } else {
-          if (userFavorites.favorite.includes(parseInt(id))) {
-            return [...prev];
-          } else {
-            userFavorites.favorite.push(parseInt(id));
-            userFavorites.details.push(filmDetails);
-            return [...prev];
-          }
-        }
-      });
-    } else {
-      if (!favoriteList) {
-        setFavoriteList([]);
-      }
       if (favoriteList) {
         setFavoriteList((prev) => {
-          if (prev) {
-            const userFavorites = prev.find((user) => user.user === username);
-            if (userFavorites) {
-              console.log("filter");
-              userFavorites.favorite = userFavorites.favorite.filter(
-                (filmId) => parseInt(filmId) !== parseInt(id)
-              );
-              userFavorites.details = userFavorites.details.filter(
-                (detail) => parseInt(detail.id) !== parseInt(id)
-              );
+          console.log(prev);
+          const userFavorites = prev?.find((user) => user.user === username);
+          if (!userFavorites) {
+            prev.push({
+              user: username,
+              favorite: [parseInt(id)],
+              details: [filmDetails],
+            });
+            return [...prev];
+          } else {
+            if (userFavorites.favorite.includes(parseInt(id))) {
+              return [...prev];
+            } else {
+              userFavorites.favorite.push(parseInt(id));
+              userFavorites.details.push(filmDetails);
               return [...prev];
             }
           }
         });
       }
+    } else if (!isLiked) {
+      setFavoriteList((prev) => {
+        console.log(prev);
+        if (!prev) return [];
+        if (prev) {
+          const userFavorites = prev.find((user) => user.user === username);
+          if (userFavorites) {
+            console.log("filter");
+            userFavorites.favorite = userFavorites.favorite.filter(
+              (filmId) => parseInt(filmId) !== parseInt(id)
+            );
+            userFavorites.details = userFavorites.details.filter(
+              (detail) => parseInt(detail.id) !== parseInt(id)
+            );
+          }
+          return [...prev];
+        }
+      });
     }
   }, [isLiked]);
-
   useEffect(() => {
     window.localStorage.setItem("favoriteList", JSON.stringify(favoriteList));
   }, [favoriteList]);
+
+  const addToFavoriteHandler = () => {
+    setIsLiked((prev) => !prev);
+  };
+
   return (
     <Grid
       container

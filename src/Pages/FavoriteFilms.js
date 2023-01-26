@@ -9,32 +9,37 @@ function FavoriteFilms() {
   if (faveList) {
     const filmData = JSON.parse(faveList);
     const userData = filmData.find((user) => user.user === Auth.user);
+    console.log(userData);
     if (userData) {
-      return (
-        <Grid
-          container
-          spacing={4}
-          sx={{ width: "1024px", maxWidth: "95%", mt: "5px" }}
-        >
-          <RecommendedFilms filmData={userData.details} type="Favorite Films" />
-        </Grid>
-      );
-    } else {
-      return (
-        <Typography
-          variant="h3"
-          sx={{
-            color: "#FFF0F0",
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-          }}
-        >
-          No Favorite Films Added
-        </Typography>
-      );
+      if (userData.details.length > 0) {
+        return (
+          <Grid
+            container
+            spacing={4}
+            sx={{ width: "1024px", maxWidth: "95%", mt: "5px" }}
+          >
+            <RecommendedFilms
+              filmData={userData.details}
+              type="Favorite Films"
+            />
+          </Grid>
+        );
+      }
     }
+    return (
+      <Typography
+        variant="h3"
+        sx={{
+          color: "#FFF0F0",
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        }}
+      >
+        No Favorite Films Added
+      </Typography>
+    );
   }
 }
 
