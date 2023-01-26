@@ -3,11 +3,11 @@ import { Grid, Typography } from "@mui/material";
 import { ENDPOINT } from "../App/config";
 import Film from "./Film";
 
-function RecommendedFilms({ filmData }) {
+function RecommendedFilms({ filmData, type }) {
   return (
     <Grid item xs={12}>
       <Typography variant="h5" sx={{ color: "#FFF0F0" }}>
-        Recommendations
+        {type}
       </Typography>
       <Grid
         container
@@ -30,6 +30,7 @@ function RecommendedFilms({ filmData }) {
               popularity={film.popularity}
               release_date={film.release_date}
               id={film.id}
+              key={Math.random().toString(36).substring(5)}
             />
           ))}
       </Grid>

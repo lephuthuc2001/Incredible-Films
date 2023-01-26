@@ -63,7 +63,7 @@ function FilmSearch() {
       } else {
         navigate("/", { replace: true });
       }
-    }, 1300);
+    }, 1000);
     return () => clearTimeout(search);
   }, [query]);
   return (

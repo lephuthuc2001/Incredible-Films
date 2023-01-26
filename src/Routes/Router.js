@@ -8,6 +8,7 @@ import AuthRequire from "./AuthRequire";
 import FilmsList from "../Components/FilmsList";
 import FilmDetails from "../Components/FilmDetails";
 import HomePage from "../Pages/HomePage";
+import FavoriteFilms from "../Pages/FavoriteFilms";
 function Router() {
   return (
     <Routes>
@@ -23,6 +24,7 @@ function Router() {
         <Route path="genre/:id" element={<FilmsList />} />
         <Route path="filmDetails/:id" element={<FilmDetails />} />
         <Route path="search/:id" element={<FilmsList />} />
+        <Route path="favorite" element={<FavoriteFilms />} />
         <Route path="*" element={<NotFoundPages />} />
       </Route>
       <Route path="/welcome" element={<WelcomeLayout />}>

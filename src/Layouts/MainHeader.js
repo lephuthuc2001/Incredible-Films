@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { apiService } from "../App/apiService";
 import { ENDPOINT } from "../App/config";
 import FilmSearch from "../Components/FilmSearch";
+import Avatar from "../Components/Avatar";
 
 export default function MainHeader() {
   const theme = useTheme();
@@ -55,6 +56,7 @@ export default function MainHeader() {
           }}
         >
           <Logo disabledLink={false} />
+          <Avatar />
           <MyMenu menuName="Genres" menuItems={genres} />
           <FilmSearch />
         </Toolbar>

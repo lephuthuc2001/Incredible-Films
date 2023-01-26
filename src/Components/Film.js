@@ -21,7 +21,10 @@ function Film({ posterImg, title, popularity, release_date, id }) {
           <CardMedia component="img" image={posterImg} alt="green iguana" />
           <CardContent>
             <Typography gutterBottom variant="h7" component="div">
-              {`${title} (${release_date})`}
+              {title}
+            </Typography>
+            <Typography gutterBottom variant="h7" component="div">
+              {release_date}
             </Typography>
           </CardContent>
         </CardActionArea>

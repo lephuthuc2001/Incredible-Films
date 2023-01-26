@@ -5,13 +5,38 @@ import { ENDPOINT } from "../App/config";
 import { useEffect } from "react";
 import { apiService } from "../App/apiService";
 import { useState } from "react";
-import { List, ListItem, ListItemText } from "@mui/material";
+import { List, ListItem, ListItemText, IconButton } from "@mui/material";
 import RecommendedFilms from "./RecommendedFilms";
-
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
+import { useAuth } from "../contexts/AuthContext";
 function FilmDetails() {
+  const Auth = useAuth();
+  const username = Auth.user;
+
   const { id } = useParams();
   const [filmDetails, setFilmDetails] = useState([]);
   const [recommendedFilms, setRecommendedFilms] = useState([]);
+  const [isLiked, setIsLiked] = useState(() => {
+    const faveList = JSON.parse(localStorage.getItem("favoriteList"));
+    if (faveList) {
+      const user = faveList.find((uList) => uList.user === username);
+      if (user) {
+        if (user.favorite.includes(parseInt(id))) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
+    return false;
+  });
+  const [favoriteList, setFavoriteList] = useState(() => {
+    if (window.localStorage.getItem("favoriteList")) {
+      return JSON.parse(window.localStorage.getItem("favoriteList"));
+    } else return [];
+  });
+
   useEffect(() => {
     const getMovie = async () => {
       try {
@@ -31,9 +56,56 @@ function FilmDetails() {
         console.log(error);
       }
     };
+
     getMovie();
   }, [id]);
 
+  const addToFavoriteHandler = () => {
+    setIsLiked((prev) => !prev);
+  };
+
+  useEffect(() => {
+    if (isLiked) {
+      setFavoriteList((prev) => {
+        const userFavorites = prev.find((user) => user.user === username);
+        if (!userFavorites) {
+          prev.push({
+            user: username,
+            favorite: [parseInt(id)],
+            details: [filmDetails],
+          });
+          return [...prev];
+        } else {
+          if (userFavorites.favorite.includes(parseInt(id))) {
+            return [...prev];
+          } else {
+            userFavorites.favorite.push(parseInt(id));
+            userFavorites.details.push(filmDetails);
+            return [...prev];
+          }
+        }
+      });
+    } else {
+      console.log("isliekd is false");
+      setFavoriteList((prev) => {
+        const userFavorites = prev.find((user) => user.user === username);
+        if (userFavorites) {
+          console.log("filter");
+          userFavorites.favorite = userFavorites.favorite.filter(
+            (filmId) => parseInt(filmId) !== parseInt(id)
+          );
+          userFavorites.details = userFavorites.details.filter(
+            (detail) => parseInt(detail.id) !== parseInt(id)
+          );
+          return [...prev];
+        }
+      });
+    }
+  }, [isLiked]);
+
+  useEffect(() => {
+    window.localStorage.setItem("favoriteList", JSON.stringify(favoriteList));
+  }, [favoriteList]);
   return (
     <Grid
       container
@@ -44,6 +116,7 @@ function FilmDetails() {
         mt: "3px",
         justifyContent: "center",
         alignItems: "center",
+        mb: "20px",
       }}
     >
       <Grid item xs={12} sm={6}>
@@ -112,6 +185,13 @@ function FilmDetails() {
                 filmDetails.vote_count
               } Votes)`}
             </Typography>
+            <IconButton onClick={addToFavoriteHandler} aria-label="delete">
+              {!isLiked ? (
+                <FavoriteBorderOutlinedIcon />
+              ) : (
+                <FavoriteOutlinedIcon sx={{ color: "red" }} />
+              )}
+            </IconButton>
           </Box>
         </Box>
       </Grid>
@@ -123,7 +203,7 @@ function FilmDetails() {
           <Typography variant="body2">{filmDetails.overview}</Typography>
         </Box>
       </Grid>
-      <RecommendedFilms filmData={recommendedFilms} />
+      <RecommendedFilms filmData={recommendedFilms} type="Recommendations" />
     </Grid>
   );
 }
