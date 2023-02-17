@@ -8,14 +8,29 @@ import {
   Grid,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-function Film({ posterImg, title, popularity, release_date, id }) {
+function Film({
+  posterImg,
+  title,
+  popularity,
+  release_date,
+  id,
+  genre,
+  isReplaced,
+}) {
   const navigate = useNavigate();
   return (
     <Grid item xs={12} sm={6} md={4} lg={3}>
-      <Card>
+      <Card
+        sx={{
+          minHeight: 450,
+        }}
+      >
         <CardActionArea
           onClick={() => {
-            navigate(`/filmDetails/${id}`);
+            navigate(`/filmDetails/${id}`, {
+              replace: isReplaced,
+              state: { genre },
+            });
           }}
         >
           <CardMedia component="img" image={posterImg} alt="green iguana" />

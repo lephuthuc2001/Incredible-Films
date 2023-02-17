@@ -3,21 +3,19 @@ import { Grid, Typography } from "@mui/material";
 import { ENDPOINT } from "../App/config";
 import Film from "./Film";
 
-function RecommendedFilms({ filmData, type }) {
+function RecommendedFilms({ filmData, type, genre }) {
   return (
-    <Grid item xs={12}>
+    <Grid item xs={12} rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
       <Typography variant="h5" sx={{ color: "#FFF0F0" }}>
         {type}
       </Typography>
       <Grid
         container
-        spacing={2}
+        rowSpacing={2}
+        columnSpacing={{ xs: 1, sm: 2, md: 3 }}
         sx={{
-          width: "1024px",
-          maxWidth: "95%",
+          width: "100%",
           mt: "5px",
-          justifyContent: "center",
-          alignItems: "center",
         }}
       >
         {filmData
@@ -31,6 +29,8 @@ function RecommendedFilms({ filmData, type }) {
               release_date={film.release_date}
               id={film.id}
               key={Math.random().toString(36).substring(5)}
+              isReplaced={true}
+              genre={genre}
             />
           ))}
       </Grid>

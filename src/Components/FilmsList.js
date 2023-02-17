@@ -62,6 +62,7 @@ function FilmsList() {
               release_date={film.release_date}
               id={film.id}
               key={Math.random().toString(36).substring(5)}
+              genre={state.title}
             />
           ))}
       </Grid>

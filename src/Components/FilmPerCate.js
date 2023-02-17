@@ -26,16 +26,19 @@ function FilmPerCate({ name, status }) {
     <Grid item xs={12}>
       <Typography
         variant="h4"
-        sx={{ color: "#FFF0F0", textAlign: "center", mb: "5px" }}
+        sx={{ color: "#FFF0F0", textAlign: "center", mb: "20px" }}
       >
         {name.toUpperCase()}
       </Typography>
       <Grid
         container
-        spacing={2}
+        rowSpacing={1}
+        columnSpacing={{ xs: 1, sm: 2, md: 3 }}
         sx={{
           width: "100%",
           maxWidth: "100%",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
         {filmData

@@ -6,11 +6,11 @@ import MUIThemeProvider from "./contexts/MUIThemeProvider";
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <MUIThemeProvider>
+      <MUIThemeProvider>
+        <BrowserRouter>
           <Router />
-        </MUIThemeProvider>
-      </BrowserRouter>
+        </BrowserRouter>
+      </MUIThemeProvider>
     </AuthProvider>
   );
 }

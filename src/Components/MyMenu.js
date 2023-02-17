@@ -17,9 +17,14 @@ export default function MyMenu({ menuName, menuItems }) {
   const navigate = useNavigate();
   const handleClose = (genreId, genreName) => {
     setAnchorEl(null);
-    navigate(`genre/${genreId}`, {
-      state: { type: "genre", title: genreName },
-    });
+    if (
+      genreName !== "backdropClick" &&
+      genreName !== "escapeKeyDown" &&
+      genreName !== "tabKeyDown"
+    )
+      navigate(`genre/${genreId}`, {
+        state: { type: "genre", title: genreName },
+      });
   };
 
   const ITEM_HEIGHT = 48;

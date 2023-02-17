@@ -23,7 +23,6 @@ const theme = createTheme({
 function MUIThemeProvider({ children }) {
   return (
     <ThemeProvider theme={theme}>
-      {" "}
       <CssBaseline />
       {children}
     </ThemeProvider>

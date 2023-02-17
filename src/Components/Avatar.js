@@ -57,7 +57,6 @@ function Avatar() {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
         <MenuItem onClick={faveFilmsHandler}>My Favorite Films</MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
