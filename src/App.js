@@ -5,13 +5,13 @@ import Router from "./Routes/Router";
 import MUIThemeProvider from "./contexts/MUIThemeProvider";
 function App() {
   return (
-    <AuthProvider>
-      <MUIThemeProvider>
+    <MUIThemeProvider>
+      <AuthProvider>
         <BrowserRouter>
           <Router />
         </BrowserRouter>
-      </MUIThemeProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </MUIThemeProvider>
   );
 }
 

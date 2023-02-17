@@ -70,12 +70,11 @@ function FilmsList() {
       <Pagination
         sx={{ m: "20px 0" }}
         count={totalPages > 500 ? 500 : totalPages}
-        variant="outlined"
         shape="rounded"
         defaultPage={1}
         page={page}
         onChange={handleChange}
-        color="warning"
+        color="error"
       />
     </>
   );
