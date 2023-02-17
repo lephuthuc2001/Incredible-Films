@@ -5,7 +5,8 @@ import Chip from "@mui/material/Chip";
 import HomeIcon from "@mui/icons-material/Home";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useNavigate } from "react-router-dom";
-
+import MovieIcon from "@mui/icons-material/Movie";
+import MovieFilterIcon from "@mui/icons-material/MovieFilter";
 const StyledBreadcrumb = styled(Chip)(({ theme }) => {
   const backgroundColor =
     theme.palette.mode === "light"
@@ -52,9 +53,14 @@ export default function Navigator({ film, genre }) {
             onClick={() => {
               navigate(-1);
             }}
+            icon={<MovieFilterIcon fontSize="small" />}
           />
         )}
-        <StyledBreadcrumb label={film} deleteIcon={<ExpandMoreIcon />} />
+        <StyledBreadcrumb
+          icon={<MovieIcon fontSize="small" />}
+          label={film}
+          deleteIcon={<ExpandMoreIcon />}
+        />
       </Breadcrumbs>
     </div>
   );
